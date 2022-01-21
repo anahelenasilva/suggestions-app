@@ -135,4 +135,18 @@ public class MongoSuggestionData : ISuggestionData
          throw;
       }
    }
+
+   public async Task<List<SuggestionModel>> GetUsersSuggestions(string userId)
+   {
+      var output = _cache.Get<List<SuggestionModel>>(userId);
+      if (output is null)
+      {
+         var results = await _suggestions.FindAsync(s => s.Author.Id == userId);
+         output = results.ToList();
+
+         _cache.Set(userId, output, TimeSpan.FromMinutes(1));
+      }
+
+      return output;
+   }
 }
