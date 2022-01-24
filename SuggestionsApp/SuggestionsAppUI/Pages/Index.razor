@@ -34,7 +34,7 @@
         {
             <Virtualize Items="@suggestions" Context="s" OverscanCount="10">
                 <div>
-                    <div>
+                    <div @onclick="(() => VoteUp(s))">
                         <div>@GetUpvoteTopText(s)</div>
                         <span class="oi oi-caret-top"></span>
                         <div>@GetUpvoteBottomText(s)</div>
@@ -266,6 +266,34 @@
         //TODO add log
     }
 
+    private async Task VoteUp(SuggestionModel suggestion)
+    {
+        if (loggedInUser is not null)
+        {
+            if (suggestion.Author.Id == loggedInUser.Id)
+            {
+                //Can't vote on your own suggestion
+                return;
+            }
+
+            if (suggestion.UserVotes.Add(loggedInUser.Id) == false)
+            {
+                suggestion.UserVotes.Remove(loggedInUser.Id);
+            }
+
+            await suggestionData.UpvoteSuggestion(suggestion.Id, loggedInUser.Id);
+
+            if (isSortedByNew == false)
+            {
+                suggestions = suggestions.OrderByDescending(s => s.UserVotes.Count).ThenByDescending(s => s.DateCreated).ToList();
+            }
+        }
+        else
+        {
+            navManager.NavigateTo("/MicrosoftIdentity/Account/SignIn", true);
+        }
+    }
+
     private string GetUpvoteTopText(SuggestionModel suggestion)
     {
         if (suggestion.UserVotes?.Count > 0)
@@ -273,7 +301,7 @@
             return suggestion.UserVotes.Count.ToString("00");
         }
 
-        if (suggestion.Author.Id == loggedInUser.Id)
+        if (suggestion.Author.Id == loggedInUser?.Id)
         {
             return "Awaiting";
         }
