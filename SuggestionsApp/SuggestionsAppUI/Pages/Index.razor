@@ -27,6 +27,51 @@
                aria-label="Search box" @oninput="((txt) => OnSearchInput((string)txt.Value))"
                class="form-control rounded-control" />
     </div>
+
+    <div class="col-12 d-block d-md-none">
+        @if (categories is not null && showCategories)
+        {
+            <div class="categories">
+                <span class="text-uppercase fw-bold">Category</span>
+
+                <div class="@GetSelectedCategory()" @onclick="(() => OnCategoryClick())">All</div>
+                @foreach (var c in categories)
+                {
+                    <div class="@GetSelectedCategory(c.CategoryName)" @onclick="(() => OnCategoryClick(c.CategoryName))">
+                        @c.CategoryName
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="categories" @onclick="(() => showCategories = true)">
+                <span class="selected-category">@selectedCategory</span>
+            </div>
+        }
+        
+        
+        @if (statuses is not null && showStatuses)
+        {
+            <div class="statuses">
+                <span class="text-uppercase fw-bold">Status</span>
+
+                <div class="@GetSelectedStatus()" @onclick="(() => OnStatusClick())">All</div>
+                @foreach (var c in statuses)
+                {
+                    <div class="@GetSelectedStatus(c.StautsName)" @onclick="(() => OnStatusClick(c.StautsName))">
+                        @c.StautsName
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="statuses" @onclick="(() => showStatuses = true)">
+                <span class="selected-status">@selectedStatus</span>
+            </div>
+        }
+    </div>
 </div>
 
 <div class="row">
@@ -47,31 +92,31 @@
                         </div>
 
                         @if (archivingSuggestion is null || archivingSuggestion.Id != s.Id)
-                        {
-                            <div class="suggestion-entry-bottom">
-                                <div class="suggestion-entry-text-category" @onclick="(() => OpenDetails(s))">
-                                    @s.Category?.CategoryName
-                                </div>
+                    {
+                        <div class="suggestion-entry-bottom">
+                            <div class="suggestion-entry-text-category" @onclick="(() => OpenDetails(s))">
+                                @s.Category?.CategoryName
+                            </div>
 
-                                <AuthorizeView Policy="Admin">
-                                    <button class="btn btn-archive suggestion-entry-text-category" @onclick="(() => archivingSuggestion = s)">
-                                        Archive
-                                    </button>
-                                </AuthorizeView>
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="suggestion-entry-bottom">
-                                <button class="btn btn-archive btn-archive-confirm" @onclick="ArchiveSuggestion">
-                                    Confirm
+                            <AuthorizeView Policy="Admin">
+                                <button class="btn btn-archive suggestion-entry-text-category" @onclick="(() => archivingSuggestion = s)">
+                                    Archive
                                 </button>
-                                
-                                <button class="btn btn-archive btn-archive-reject" @onclick="(() => archivingSuggestion = null)">
-                                    Cancel
-                                </button>
-                            </div>
-                        }
+                            </AuthorizeView>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="suggestion-entry-bottom">
+                            <button class="btn btn-archive btn-archive-confirm" @onclick="ArchiveSuggestion">
+                                Confirm
+                            </button>
+
+                            <button class="btn btn-archive btn-archive-reject" @onclick="(() => archivingSuggestion = null)">
+                                Cancel
+                            </button>
+                        </div>
+                    }
                 </div>
 
                 <div class="suggestion-entry-status @GetSuggestionStatusClass(s)">
@@ -84,7 +129,7 @@
         }
     </div>
 
-    <div class="col-md-4 col-xl-3">
+    <div class="col-md-4 col-xl-3 d-none d-md-block">
         @if (categories is not null)
         {
             <div class="categories">
@@ -126,6 +171,8 @@
     private string selectedStatus = "All";
     private string searchText = "";
     private bool isSortedByNew = true;
+    private bool showCategories = false;
+    private bool showStatuses = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -292,6 +339,7 @@
     private async Task OnCategoryClick(string category = "All")
     {
         selectedCategory = category;
+        showCategories = false;
         await FilterSuggestions();
         //TODO add log
     }
@@ -299,6 +347,7 @@
     private async Task OnStatusClick(string status = "All")
     {
         selectedStatus = status;
+        showStatuses = false;
         await FilterSuggestions();
         //TODO add log
     }
