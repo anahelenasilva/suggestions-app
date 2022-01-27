@@ -6,191 +6,198 @@
 
 @inject AuthenticationStateProvider authProvider
 
+<h1 class="page-heading text-uppercase mb-4">My Profile</h1>
 
-<h1>My Profile</h1>
-
-<div>
-    <div>
-        <button @onclick="ClosePage"></button>
+<div class="row">
+    <div class="col-12 close-button-section">
+        <button class="btn btn-close" @onclick="ClosePage"></button>
     </div>
 </div>
 
-<div>
-    <h2>My Account</h2>
-    <p>
+<div class="form-layout mb-3">
+    <h2 class="my-submission-heading">My Account</h2>
+    <p class="my-submission-text">
         <a href="MicrosoftIdentity/Account/EditProfile">Edit My Profile</a>
     </p>
 </div>
 
-<div>
-    @if (approved?.Count > 0)
-    {
-        <h2>Aprroved Suggestions</h2>
-        <p>These are your suggestions that are currently active.</p>
+
+@if (approved?.Count > 0)
+{
+    <div class="form-layout mb-3">
+        <h2 class="my-submission-heading">Approved Suggestions</h2>
+        <p class="my-submission-text">These are your suggestions that are currently active.</p>
 
         @foreach (var s in approved)
         {
-            <hr />
+            <hr class="my-submission-separator" />
 
-            <div>
+            <div class="fw-bold suggestion-detail-suggestion">
                 @s.Suggestion
             </div>
 
-            <p>
+            <p class="my-submission-text">
                 @s.DateCreated.ToString("dd/MM/yyyy")
             </p>
 
-            <p>
+            <p class="my-submission-text">
                 Total Votes: @s.UserVotes.Count
             </p>
 
-            <p>
+            <p class="my-submission-text">
                 @s.Category.CategoryName
             </p>
 
-            <p>
+            <p class="my-submission-text">
                 @s.Description
             </p>
 
             @if (s.SuggestionStatus is not null)
             {
-                <div>
+                <div class="my-submission-text fw-bold">
                     @s.SuggestionStatus.StautsName
                 </div>
 
-                <p>
+                <p class="my-submission-text">
                     @((MarkupString)s.OwnerNotes)
                 </p>
             }
         }
-    }
+    </div>
+}
 
-    @if (archived?.Count > 0)
-    {
-        <h2>Archived Suggestions</h2>
-        <p>These are your suggestions that were active but did not gain enough traction.</p>
+@if (archived?.Count > 0)
+{
+    <div class="form-layout mb-3">
+        <h2 class="my-submission-heading">Archived Suggestions</h2>
+        <p class="my-submission-text">These are your suggestions that were active but did not gain enough traction.</p>
 
         @foreach (var s in archived)
         {
-            <hr />
+            <hr class="my-submission-separator" />
 
-            <div>
+            <div class="fw-bold suggestion-detail-suggestion">
                 @s.Suggestion
             </div>
 
-            <p>
+            <p class="my-submission-text">
                 @s.DateCreated.ToString("dd/MM/yyyy")
             </p>
 
-            <p>
+            <p class="my-submission-text">
                 Total Votes: @s.UserVotes.Count
             </p>
 
-            <p>
+            <p class="my-submission-text">
                 @s.Category.CategoryName
             </p>
 
-            <p>
+            <p class="my-submission-text">
                 @s.Description
             </p>
 
             @if (s.SuggestionStatus is not null)
             {
-                <div>
+                <div class="my-submission-text fw-bold">
                     @s.SuggestionStatus.StautsName
                 </div>
 
-                <p>
+                <p class="my-submission-text">
                     @((MarkupString)s.OwnerNotes)
                 </p>
             }
         }
-    }
+    </div>
+}
 
-    @if (pending?.Count > 0)
-    {
-        <h2>Pending Suggestions</h2>
-        <p>These are your suggestions that have not yet been reviewed by the administrators.</p>
+@if (pending?.Count > 0)
+{
+    <div class="form-layout mb-3">
+        <h2 class="my-submission-heading">Pending Suggestions</h2>
+        <p class="my-submission-text">These are your suggestions that have not yet been reviewed by the administrators.</p>
 
         @foreach (var s in pending)
         {
-            <hr />
+            <hr class="my-submission-separator" />
 
-            <div>
+            <div class="fw-bold suggestion-detail-suggestion">
                 @s.Suggestion
             </div>
 
-            <p>
+            <p class="my-submission-text">
                 @s.DateCreated.ToString("dd/MM/yyyy")
             </p>
 
-            <p>
+            <p class="my-submission-text">
                 Total Votes: @s.UserVotes.Count
             </p>
 
-            <p>
+            <p class="my-submission-text">
                 @s.Category.CategoryName
             </p>
 
-            <p>
+            <p class="my-submission-text">
                 @s.Description
             </p>
 
             @if (s.SuggestionStatus is not null)
             {
-                <div>
+                <div class="my-submission-text fw-bold">
                     @s.SuggestionStatus.StautsName
                 </div>
 
-                <p>
+                <p class="my-submission-text">
                     @((MarkupString)s.OwnerNotes)
                 </p>
             }
         }
-    }
+    </div>
+}
 
-    @if (rejected?.Count > 0)
-    {
-        <h2>Rejected Suggestions</h2>
-        <p>These are your suggestions that were not deemed to be appropriate for the traning suggestion site.</p>
+@if (rejected?.Count > 0)
+{
+    <div class="form-layout mb-3">
+        <h2 class="my-submission-heading">Rejected Suggestions</h2>
+        <p class="my-submission-text">These are your suggestions that were not deemed to be appropriate for the traning suggestion site.</p>
 
         @foreach (var s in rejected)
         {
-            <hr />
+            <hr class="my-submission-separator" />
 
-            <div>
+            <div class="fw-bold suggestion-detail-suggestion">
                 @s.Suggestion
             </div>
 
-            <p>
+            <p class="my-submission-text">
                 @s.DateCreated.ToString("dd/MM/yyyy")
             </p>
 
-            <p>
+            <p class="my-submission-text">
                 Total Votes: @s.UserVotes.Count
             </p>
 
-            <p>
+            <p class="my-submission-text">
                 @s.Category.CategoryName
             </p>
 
-            <p>
+            <p class="my-submission-text">
                 @s.Description
             </p>
 
             @if (s.SuggestionStatus is not null)
             {
-                <div>
+                <div class="my-submission-text fw-bold">
                     @s.SuggestionStatus.StautsName
                 </div>
 
-                <p>
+                <p class="my-submission-text">
                     @((MarkupString)s.OwnerNotes)
                 </p>
             }
         }
-    }
-</div>
+    </div>
+}
+
 
 @code {
     private UserModel loggedInUser;
