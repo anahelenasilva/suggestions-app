@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SuggestionAppInfra\SuggestionAppInfra.csproj" />
     <ProjectReference Include="..\SuggestionAppLibrary\SuggestionAppLibrary.csproj" />
   </ItemGroup>
 

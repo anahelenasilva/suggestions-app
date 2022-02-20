@@ -1,6 +1,9 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
+using MongoDB.Driver;
+using SuggestionAppLibrary.DataAccess;
+using SuggestionAppLibrary.Models;
 
-namespace SuggestionAppLibrary.DataAccess;
+namespace SuggestionAppInfra.MongoDataAccess;
 
 public class MongoSuggestionData : ISuggestionData
 {
@@ -23,13 +26,15 @@ public class MongoSuggestionData : ISuggestionData
    {
       var output = _cache.Get<List<SuggestionModel>>(CacheName);
 
-      if (output is null)
+      if (output is not null)
       {
-         var results = await _suggestions.FindAsync(s => s.Archived == false);
-         output = results.ToList();
-
-         _cache.Set(CacheName, output, TimeSpan.FromMinutes(1));
+         return output;
       }
+
+      var results = await _suggestions.FindAsync(s => s.Archived == false);
+      output = results.ToList();
+
+      _cache.Set(CacheName, output, TimeSpan.FromMinutes(1));
 
       return output;
    }
