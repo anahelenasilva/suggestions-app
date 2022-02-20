@@ -28,7 +28,7 @@
                 <div>
                     @if (currentEditingTitle == s.Id)
                     {
-                        <EditForm class="approval-edit-form" Model="@editedTitle" OnSubmit="(() => SaveTitle(s))">
+                        <EditForm class="approval-edit-form" Model="editedTitle" OnSubmit="(() => SaveTitle(s))">
                             <InputText class="form-control approval-edit-field" @bind-Value="editedTitle" />
                             <button type="submit" class="btn">
                                 <span class="oi oi-check submission-edit-approve"></span>
@@ -56,7 +56,7 @@
                 <div>
                     @if (currentEditingDescription == s.Id)
                     {
-                        <EditForm class="approval-edit-form" Model="@editedDescription" OnSubmit="(() => SaveDescription(s))">
+                        <EditForm class="approval-edit-form" Model="editedDescription" OnSubmit="(() => SaveDescription(s))">
                             <InputText class="form-control approval-edit-field" @bind-Value="editedDescription" />
                             <button class="btn" type="submit">
                                 <span class="oi oi-check submission-edit-approve"></span>
