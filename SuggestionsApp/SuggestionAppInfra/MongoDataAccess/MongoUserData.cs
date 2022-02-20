@@ -1,4 +1,8 @@
-﻿namespace SuggestionAppLibrary.DataAccess;
+﻿using MongoDB.Driver;
+using SuggestionAppLibrary.DataAccess;
+using SuggestionAppLibrary.Models;
+
+namespace SuggestionAppInfra.MongoDataAccess;
 
 public class MongoUserData : IUserData
 {
